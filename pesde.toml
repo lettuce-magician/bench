@@ -1,0 +1,12 @@
+name = "letiul/bench"
+version = "0.1.0"
+description = "simple, platform-agnostic and atomic benchmarker"
+authors = ["lettuce-magician"]
+repository = "https://github.com/lettuce-magician/bench"
+license = "MIT"
+
+[target]
+environment = "luau"
+
+[indices]
+default = "https://github.com/pesde-pkg/index"
