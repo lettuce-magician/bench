@@ -25,7 +25,7 @@ local results = bench.mark(function(begin, finish)
 end)
 
 -- print the results
-bench.output(results)
+bench.out(results)
 ```
 
 ### Iterating benchmark
@@ -51,7 +51,7 @@ local results = bench.iter(10, function(n, begin, finish)
     return "table comparison"
 end)
 
-bench.output(results)
+bench.out(results)
 ```
 
 ### Comparing benchmarks
