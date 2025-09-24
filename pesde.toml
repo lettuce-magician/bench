@@ -4,9 +4,16 @@ description = "simple, platform-agnostic and atomic benchmarker"
 authors = ["lettuce-magician"]
 repository = "https://github.com/lettuce-magician/bench"
 license = "MIT"
+includes = [
+  "pesde.toml",
+  "README.md",
+  "LICENSE",
+  "src/**/*.luau",
+]
 
 [target]
 environment = "luau"
+lib = "init.luau"
 
 [indices]
 default = "https://github.com/pesde-pkg/index"
