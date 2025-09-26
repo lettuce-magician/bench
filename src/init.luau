@@ -55,6 +55,7 @@ local function str_if<T>(cond: T, str: string)
 	return ""
 end
 
+-- benchmarks a function, providing two functions to assign profiles and calculate intervals between functions.
 local function mark(fn: (begin: begin, finish: finish) -> string?)
 	local result = {
 		profiles = {},
@@ -97,6 +98,8 @@ local function mark(fn: (begin: begin, finish: finish) -> string?)
 	return result
 end
 
+-- benchmarks a function `n` times, then returns data about the iterations between the profiles, incluinding intervals for each iteration,
+-- average time and best and worst times for each profile.
 local function iter(n: number, fn: (i: number, begin: begin, finish: finish) -> string?)
 	local result = {
 		profiles = {} :: { [string]: iterEntry },
@@ -173,6 +176,7 @@ local function iter(n: number, fn: (i: number, begin: begin, finish: finish) -> 
 	return result
 end
 
+-- compares the provided benchmarks, returning a table with the comparison data.
 local function compare(...: benchResult)
 	local benches = { ... }
 	local result = {
