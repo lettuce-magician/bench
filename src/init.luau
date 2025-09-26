@@ -47,7 +47,7 @@ local function getDefaultBenchName()
 	return "bench" .. (if benchCount == 0 then "" else 0)
 end
 
-local function str_if<T>(cond: T, str: string)
+local function stringIf<T>(cond: T, str: string)
 	if cond then
 		return str
 	end
@@ -204,16 +204,16 @@ local function compare(...: benchResult)
 		result.diffs[bench.name] = diffs
 	end
 
-	local min, max = math.huge, -math.huge
+	local minValue, maxValue = math.huge, -math.huge
 
 	for _, data in benches do
-		if data.total > max then
-			max = data.total
+		if data.total > maxValue then
+			maxValue = data.total
 			result.worst = data.name
 		end
 
-		if data.total < min then
-			min = data.total
+		if data.total < minValue then
+			minValue = data.total
 			result.best = data.name
 		end
 	end
@@ -228,7 +228,7 @@ local function out(result: benchResult | compareResult, options: outOptions?): s
 		removeName = false,
 	}
 
-	local ret
+	local output
 	if result.type == "mark" then
 		local profilesStr = ""
 
@@ -236,8 +236,8 @@ local function out(result: benchResult | compareResult, options: outOptions?): s
 			profilesStr ..= `* {str}: {value}\n`
 		end
 
-		local name = str_if(not opt.removeName, `--== {result.name} ==--\n`)
-		ret = `{name}Total: {result.total}\n{profilesStr}`
+		local name = stringIf(not opt.removeName, `--== {result.name} ==--\n`)
+		output = `{name}Total: {result.total}\n{profilesStr}`
 	elseif result.type == "iter" then
 		local profilesStr = ""
 
@@ -245,8 +245,8 @@ local function out(result: benchResult | compareResult, options: outOptions?): s
 			profilesStr ..= `-- {str} --\nAvg: {entry.average}\nBest Iteration: {entry.iterations[entry.best]}\nWorst Iteration: {entry.iterations[entry.worst]}\n`
 		end
 
-		local name = str_if(not opt.removeName, `--== {result.name} ==--\n`)
-		ret = `{name}Avg: {result.total}\nIterations: {result.iterations}\n{profilesStr}`
+		local name = stringIf(not opt.removeName, `--== {result.name} ==--\n`)
+		output = `{name}Avg: {result.total}\nIterations: {result.iterations}\n{profilesStr}`
 	elseif result.type == "compare" then
 		local benchesStr = ""
 
@@ -261,14 +261,14 @@ local function out(result: benchResult | compareResult, options: outOptions?): s
 			benchesStr ..= `--// {data.name} \\\\--\n{out(data, { noPrint = true, removeName = true })}\nDiffs:\n{diffStr}\n`
 		end
 
-		ret = `Total: {result.total}\nBest: {result.best}\nWorst: {result.worst}\n\n[BENCHMARKS]\n{benchesStr}`
+		output = `Total: {result.total}\nBest: {result.best}\nWorst: {result.worst}\n\n[BENCHMARKS]\n{benchesStr}`
 	end
 
 	if not opt.noPrint then
-		print(ret)
+		print(output)
 	end
 
-	return ret :: string
+	return output :: string
 end
 
 return {
